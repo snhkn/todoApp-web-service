@@ -1,4 +1,4 @@
-package com.github.snhkn.rest.webservices.todoAppwebservice;
+package com.github.snhkn.rest.webservices.todoAppwebservice.helloworld;
 
 
 import org.springframework.web.bind.annotation.CrossOrigin;

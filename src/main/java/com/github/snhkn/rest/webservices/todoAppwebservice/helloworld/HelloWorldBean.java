@@ -1,4 +1,4 @@
-package com.github.snhkn.rest.webservices.todoAppwebservice;
+package com.github.snhkn.rest.webservices.todoAppwebservice.helloworld;
 
 public class HelloWorldBean {
 
