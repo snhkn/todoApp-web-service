@@ -20,10 +20,10 @@ public class HelloWorldController {
 	public HelloWorldBean HelloWorldBean() {
 		// throw new RuntimeException("Some error has happened! Contact support at *** -
 		// ***");
-		return new HelloWorldBean("Hello World");
+		return new HelloWorldBean("Hello World Changed");
 	}
 
-	@GetMapping(path = "/hello-world-bean/path-variable/{name}")
+	@GetMapping(path = "/hello-world/path-variable/{name}")
 	public HelloWorldBean HelloWorldPathVariable(@PathVariable String name) {
 		return new HelloWorldBean(String.format("Hello World %s", name));
 	}
