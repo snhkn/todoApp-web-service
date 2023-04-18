@@ -16,6 +16,7 @@ public class TodoHardcodedService {
 		todos.add(new Todo(++idCounter, "defaultuser", "Learn Angular", new Date(), false));
 		todos.add(new Todo(++idCounter, "defaultuser", "Clean the house", new Date(), false));
 		todos.add(new Todo(++idCounter, "defaultuser", "Study German", new Date(), false));
+		todos.add(new Todo(++idCounter, "defaultuser", "Go shopping", new Date(), false));
 	}
 
 	public List<Todo> findAll() {
