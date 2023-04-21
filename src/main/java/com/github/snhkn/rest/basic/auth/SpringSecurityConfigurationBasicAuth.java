@@ -1,4 +1,4 @@
-package com.github.snhkn.rest.webservices.todoAppwebservice.basic.auth;
+package com.github.snhkn.rest.basic.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
