@@ -42,7 +42,7 @@ public class TodoJpaResource {
 	}
 
 	@GetMapping("/jpa/users/{username}/todos/{id}")
-	public Todo getTodo(@PathVariable String username, @PathVariable long id) {
+	public Todo getTodo(@PathVariable String username, @PathVariable Long id) {
 		// return todoService.findById(id);
 		return todoJpaRepository.findById(id).get();
 	}

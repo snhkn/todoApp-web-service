@@ -1,5 +1,5 @@
 insert into todo(id, username, description, target_date, is_done)
-values(10001,'someuser','Learn JPA', now(), false);
+values(10001,'defaultuser','Learn JPA', now(), false);
 
 insert into todo(id, username, description, target_date, is_done)
 values(10002,'defaultuser','Learn Microservices', now(), false);
