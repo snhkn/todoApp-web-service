@@ -6,10 +6,14 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
+import javax.sql.DataSource;
+
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -23,11 +27,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
@@ -75,8 +80,27 @@ public class JwtSecurityConfig {
 		return new ProviderManager(authenticationProvider);
 	}
 
+	/*
+	 * @Bean public UserDetailsService userDetailsService() {
+	 *
+	 * UserDetails user = User.withUsername("defaultuser") .password("{noop}dummy")
+	 * .authorities("read") .roles("USER") .build();
+	 *
+	 * UserDetails admin =
+	 * User.withUsername("admin").password("{noop}dummy").authorities("read")
+	 * .roles("ADMIN", "USER") .build();
+	 *
+	 * return new InMemoryUserDetailsManager(user, admin); }
+	 */
+
 	@Bean
-	public UserDetailsService userDetailsService() {
+	public DataSource dataSource() {
+		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
+				.addScript(JdbcDaoImpl.DEFAULT_USER_SCHEMA_DDL_LOCATION).build();
+	}
+
+	@Bean
+	public UserDetailsService userDetailsService(DataSource dataSource) {
 
 		UserDetails user = User.withUsername("defaultuser")
 				.password("{noop}dummy")
@@ -88,7 +112,12 @@ public class JwtSecurityConfig {
 				.roles("ADMIN", "USER")
 				.build();
 
-		return new InMemoryUserDetailsManager(user, admin);
+		var jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
+
+		jdbcUserDetailsManager.createUser(user);
+		jdbcUserDetailsManager.createUser(admin);
+
+		return jdbcUserDetailsManager;
 	}
 
 	@Bean
