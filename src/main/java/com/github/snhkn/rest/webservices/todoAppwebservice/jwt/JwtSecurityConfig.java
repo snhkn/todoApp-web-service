@@ -28,6 +28,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -103,12 +104,16 @@ public class JwtSecurityConfig {
 	public UserDetailsService userDetailsService(DataSource dataSource) {
 
 		UserDetails user = User.withUsername("defaultuser")
-				.password("{noop}dummy")
+				// .password("{noop}dummy")
+				.password("dummy").passwordEncoder(str -> passwordEncoder().encode(str))
 				.authorities("read")
 				.roles("USER")
 				.build();
 
-		UserDetails admin = User.withUsername("admin").password("{noop}dummy").authorities("read")
+		UserDetails admin = User.withUsername("admin")
+				// .password("{noop}dummy")
+				.password("dummy").passwordEncoder(str -> passwordEncoder().encode(str))
+				.authorities("read")
 				.roles("ADMIN", "USER")
 				.build();
 
@@ -118,6 +123,11 @@ public class JwtSecurityConfig {
 		jdbcUserDetailsManager.createUser(admin);
 
 		return jdbcUserDetailsManager;
+	}
+
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 
 	@Bean
