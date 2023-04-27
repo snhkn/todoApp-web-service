@@ -77,6 +77,7 @@ public class JwtSecurityConfig {
 	public AuthenticationManager authenticationManager(
 			UserDetailsService userDetailsService) {
 		var authenticationProvider = new DaoAuthenticationProvider();
+		authenticationProvider.setPasswordEncoder(passwordEncoder());
 		authenticationProvider.setUserDetailsService(userDetailsService);
 		return new ProviderManager(authenticationProvider);
 	}
