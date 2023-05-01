@@ -17,18 +17,20 @@ public class Todo {
 	private String description;
 	private Date targetDate;
 	private boolean isDone;
+	private long elapsedTime;
 
 	public Todo() {
 
 	}
 
-	public Todo(long id, String username, String description, Date targetDate, boolean isDone) {
+	public Todo(long id, String username, String description, Date targetDate, boolean isDone, long elapsedTime) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.description = description;
 		this.targetDate = targetDate;
 		this.isDone = isDone;
+		this.elapsedTime = elapsedTime;
 	}
 
 	public Long getId() {
@@ -69,6 +71,14 @@ public class Todo {
 
 	public void setDone(boolean isDone) {
 		this.isDone = isDone;
+	}
+
+	public long getElapsedTime() {
+		return elapsedTime;
+	}
+
+	public void setElapsedTime(long elapsedTime) {
+		this.elapsedTime = elapsedTime;
 	}
 
 	@Override
