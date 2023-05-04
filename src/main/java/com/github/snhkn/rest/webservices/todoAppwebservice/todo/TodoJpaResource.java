@@ -69,4 +69,14 @@ public class TodoJpaResource {
 		return ResponseEntity.created(uri).build();
 	}
 
+	@PutMapping("/jpa/users/{username}/timelogs/{id}")
+	public ResponseEntity<Todo> updateTodoTimeLog(@PathVariable String username, @PathVariable Long id,
+			@RequestBody Todo todo) {
+
+		// * : Change this method, I've just copy pasted from updateTodo...
+
+		Todo todoUpdated = todoJpaRepository.save(todo);
+		return new ResponseEntity<Todo>(todoUpdated, HttpStatus.OK);
+	}
+
 }
